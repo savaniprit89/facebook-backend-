@@ -6,7 +6,7 @@ import path from 'path'
 import bodyParser from 'body-parser'
 import Pusher from 'pusher'
 import Grid from 'gridfs-stream'
-import {GridFsStorage} from 'multer-gridfs-storage'
+import GridFsStorage from 'multer-gridfs-storage'
 import mongoPosts from './postModel.js'
 Grid.mongo=mongoose.mongo
 //for storing images
