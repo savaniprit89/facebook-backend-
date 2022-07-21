@@ -110,10 +110,14 @@ app.get('/retrieve/images/single',(req,res)=>{
 
                         }
                         else{
-                            const readStream = gridfsBucket.openDownloadStream(file.filename);
+                            console.log(file);
+                            gridfsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
+                                bucketName: 'images'
+                            });
+                            const readstream = gridfsBucket.openDownloadStream(file._id);
        
-                           //  const readstream=gfs.createReadStream(file.filename);
-                             readStream.pipe(res)
+                            //const readstream=gfs.createReadStream(file.filename);
+                             readstream.pipe(res)
                         }
            
                     }
