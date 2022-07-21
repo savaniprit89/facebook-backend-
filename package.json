@@ -22,6 +22,7 @@
     "pusher": "^5.1.1-beta"
   },
   "devDependencies": {
-    "@types/gridfs-stream": "^0.5.36"
+    "@types/gridfs-stream": "^0.5.36",
+    "@types/multer-gridfs-storage": "^4.0.5"
   }
 }
