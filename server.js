@@ -16,7 +16,15 @@ Grid.mongo=mongoose.mongo
 
 const app=express();
 const port =process.env.PORT ||9000
+const Pusher = require("pusher");
 
+const pusher = new Pusher({
+  appId: "1441132",
+  key: "443f1331039ee0aa8caf",
+  secret: "37803c9d7ad54a6c8e9e",
+  cluster: "ap2",
+  useTLS: true
+});
 
 //middleware
 app.use(bodyParser.json());
@@ -24,6 +32,24 @@ app.use(cors());
 
 //db config
 const Url="mongodb+srv://pritsavani:Prit@cluster0.yzahjbj.mongodb.net/facebook-db?retryWrites=true&w=majority"
+
+mongoose.connection.once('open',()=>{
+    console.log("connected")
+    const changeStream =mongoose.connection.collection('posts').watch()
+    changeStream.on('change',(change)=>{
+        console.log(change)
+        if(change.operationType === 'insert'){
+            console.log("pusher trigger")
+
+            pusher.trigger('posts','inserted',{
+                change:change
+            })
+        }
+        else{
+            console.log("error triggering pusher")
+        }
+    })
+})
 
 const conn = mongoose.createConnection(Url,{
 
